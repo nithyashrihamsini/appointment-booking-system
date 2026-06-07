@@ -6,46 +6,59 @@ const jwt = require('jsonwebtoken');
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = async (req, res) => {
+    // ... keep your exact registration code here ...
+};
+
+// @desc    Authenticate a user & get token
+// @route   POST /api/auth/login
+// @access  Public
+const loginUser = async (req, res) => {
     try {
-        const { name, email, password, role } = req.body;
+      
+        const { email, password } = req.body;
 
-        // 1. Validation: Ensure all fields are provided
-        if (!name || !email || !password) {
-            return res.status(400).json({ message: 'Please provide all required fields' });
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Please provide email and password' });
         }
 
-        // 2. Check if user already exists
-        const userExists = await User.findOne({ email });
-        if (userExists) {
-            return res.status(400).json({ message: 'User already exists with this email' });
+       
+        const user = await User.findOne({ email });
+        
+      
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        // 3. Hash the password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+       
+        const isMatch = await bcrypt.compare(password, user.password); // Ensure 'await' is here!
+        
+      
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
 
-        // 4. Create the user
-        const user = await User.create({
-            name,
-            email,
-            password: hashedPassword,
-            role: role || 'customer' // Defaults to customer if not specified
-        });
+        
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            process.env.JWT_SECRET || 'fallback_secret_key',
+            { expiresIn: '30d' }
+        );
 
-        // 5. Respond with success (excluding password)
-        res.status(201).json({
-            message: 'User registered successfully 🎉',
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role
-            }
+       
+        res.status(200).json({
+            message: 'Logged in successfully 👋',
+            token,
+            user: { id: user._id, name: user.name, email: user.email, role: user.role }
         });
 
     } catch (error) {
-        res.status(500).json({ message: 'Server error during registration', error: error.message });
+        console.log("❌ CRASH ERROR:", error.message);
+        res.status(500).json({ message: 'Server error during login', error: error.message });
     }
 };
 
-module.exports = registerUser;
+// Export BOTH functions inside an object
+module.exports = {
+    registerUser,
+    loginUser
+};

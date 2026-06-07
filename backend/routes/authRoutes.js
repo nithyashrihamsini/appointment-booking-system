@@ -1,9 +1,13 @@
-console.log("authRoutes.js loaded");
 const express = require('express');
 const router = express.Router();
-const  registerUser  = require('../controllers/authController');
 
-// Define the registration route
+// Destructure both handlers from the controller object
+const { registerUser, loginUser } = require('../controllers/authController');
+
+// Registration route
 router.post('/register', registerUser);
+
+// Login route
+router.post('/login', loginUser);
 
 module.exports = router;
