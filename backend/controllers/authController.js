@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
+//add .env to gitignore ---!
 const registerUser = async (req, res) => {
     // ... keep your exact registration code here ...
 };
