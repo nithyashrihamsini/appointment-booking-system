@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
+// 1. Explicitly import your auth routes at the top
+const authRoutes = require('./routes/authRoutes');
+
 const app = express();
 
 // Middleware
@@ -18,6 +21,10 @@ mongoose.connect(process.env.MONGO_URI)
 app.get('/', (req, res) => {
     res.send('Appointment Booking API is running smoothly...');
 });
+console.log('authRoutes:', authRoutes);
+console.log('type:', typeof authRoutes);
+// 2. Use the imported routes variable here
+app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
