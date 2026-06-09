@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { createAppointment }     = require('../controllers/appointmentController');
+
+// 1. Import both controller functions
+const { createAppointment, getMyAppointments } = require('../controllers/appointmentController');
 const { protect } = require('../middleware/authMiddleware');
 
-// The protect middleware runs FIRST. If it passes, createAppointment runs next.
-console.log("protect:", protect, typeof protect);
-console.log("createAppointment:", createAppointment, typeof createAppointment);
+// Create Appointment (POST)
 router.post('/', protect, createAppointment);
+// Get My Appointments (GET)
+router.get('/', protect, getMyAppointments);
 
 module.exports = router;
