@@ -1,4 +1,4 @@
-console.log("🕵️‍♂️ IF YOU SEE THIS, WE ARE EDITING THE RIGHT FILE!!!");
+
 const fs = require('fs');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -11,7 +11,7 @@ const { protect } = require('./middleware/authMiddleware');
 const { createAppointment, getMyAppointments } = require('./controllers/appointmentController');
 
 const app = express();
-
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use((req, res, next) => {
     fs.appendFileSync('request-log.txt', `${new Date().toISOString()} ${req.method} ${req.url}\n`);
     next();
@@ -19,17 +19,17 @@ app.use((req, res, next) => {
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: '*',
+    origin: 'http://localhost:5173',
     credentials: true
 }));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
-        console.log('Database connected successfully 🚀');
+        console.log('Database connected successfully');
     })
     .catch((err) => {
-        console.error('Database connection error ❌:', err);
+        console.error('Database connection error: ', err);
     });
 
 // Test Route
