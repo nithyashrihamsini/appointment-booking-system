@@ -33,3 +33,10 @@
 2026-06-10T16:33:38.397Z POST /api/auth/register
 2026-06-10T16:51:32.017Z POST /api/auth/register
 2026-06-10T17:02:15.181Z POST /api/auth/register
+2026-06-10T17:12:01.579Z POST /api/auth/login
+2026-06-10T17:15:42.546Z POST /api/auth/login
+2026-06-10T17:24:21.808Z POST /api/auth/login
+2026-06-10T17:25:16.733Z POST /api/auth/login
+2026-06-10T17:25:51.645Z POST /api/auth/login
+2026-06-10T17:43:13.010Z POST /api/auth/login
+2026-06-10T17:43:51.375Z POST /api/auth/login
