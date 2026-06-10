@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const protect = async (req, res, next) => {
+    console.log('protect middleware hit:', req.method, req.url);
     let token;
 
     // 1. Check if the token is sent in the Request Headers (Authorization: Bearer <token>)

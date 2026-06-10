@@ -37,6 +37,7 @@ const createAppointment = async (req, res) => {
 // @route   GET /api/appointments
 // @access  Private (Requires Token)
 const getMyAppointments = async (req, res) => {
+    console.log('getMyAppointments handler hit');
     try {
         // Find appointments where the "user" field matches the logged-in user's ID
         // .sort({ appointmentDate: 1 }) puts the closest upcoming appointments first!
